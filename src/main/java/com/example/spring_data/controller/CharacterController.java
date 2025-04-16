@@ -10,11 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring_data.model.Character;
+import com.example.spring_data.repository.CharacterRepo;
 
 
 @RestController
 @RequestMapping("api/abert_uderzo/characters")
 public class CharacterController {
+    private final CharacterRepo repo;
+
+    public CharacterController(CharacterRepo repo) {
+        this.repo = repo;
+    }
 
     @GetMapping
     public List<Character> getAllCharacters() {
