@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring_data.dto.CharacterDTO;
@@ -18,12 +19,12 @@ import lombok.AllArgsConstructor;
 
 
 @RestController
-@RequestMapping("api/abert_uderzo/characters")
+@RequestMapping("api/abert_uderzo")
 @AllArgsConstructor
 public class CharacterController {
     CharacterService service;
 
-    @GetMapping
+    @GetMapping("/characters")
     public List<Character> getAllCharacters() {
         // return List.of(
         //     new Character("1", "Asterix", 35, "Warrior"),
@@ -40,17 +41,22 @@ public class CharacterController {
         return service.getAllCharacters();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/character/{id}")
     public Character getCharacterByID(@PathVariable String id) {
         return service.getCharacterByID(id);
     }
 
-    @PostMapping
+    @GetMapping("/character")
+    public Character getCharacterByName(@RequestParam("name") String name) {
+        return service.getCharacterByName(name);
+    }
+
+    @PostMapping("/character")
     public Character addCharacter(@RequestBody CharacterDTO character) {
         return service.addCharacter(character);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/character/{id}")
     public void deleteCharacterByID(@PathVariable String id) {
         service.deleteCharacterByID(id);
     }

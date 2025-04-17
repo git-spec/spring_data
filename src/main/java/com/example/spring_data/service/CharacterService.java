@@ -26,6 +26,10 @@ public class CharacterService {
         return repo.findById(id).orElseThrow(null);
     }
 
+    public Character getCharacterByName(String name) {
+        return repo.findAll().stream().filter(c -> c.name().equals(name)).findFirst().get();
+    }
+
     public Character addCharacter(CharacterDTO character) {
         Character newCharacter = new Character(
             UUID.randomUUID().toString(), 
@@ -34,7 +38,8 @@ public class CharacterService {
             character.profession()
         );
         
-        return repo.save(newCharacter);
+        repo.save(newCharacter);
+        return newCharacter;
     }
 
     public void deleteCharacterByID(String id) {
