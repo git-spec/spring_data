@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring_data.model.Character;
-import com.example.spring_data.repository.CharacterRepo;
+import com.example.spring_data.service.CharacterService;
+
+import lombok.AllArgsConstructor;
 
 
 @RestController
 @RequestMapping("api/abert_uderzo/characters")
+@AllArgsConstructor
 public class CharacterController {
-    private final CharacterRepo repo;
-
-    public CharacterController(CharacterRepo repo) {
-        this.repo = repo;
-    }
+    CharacterService service;
 
     @GetMapping
     public List<Character> getAllCharacters() {
@@ -37,21 +36,21 @@ public class CharacterController {
         //     new Character("9", "Automatix", 35, "Smith"),
         //     new Character("10", "Grockelix", 35, "Fisherman")
         // );
-        return repo.findAll();
+        return service.getAllCharacters();
     }
 
     @GetMapping("/{id}")
     public Character getCharacterByID(@PathVariable String id) {
-        return repo.findById(id).orElseThrow(null);
+        return service.getCharacterByID(id);
     }
 
     @PostMapping
-    public Character addCharacter(@RequestBody Character student) {
-        return repo.save(student);
+    public Character addCharacter(@RequestBody Character character) {
+        return service.addCharacter(character);
     }
 
     @DeleteMapping("/{id}")
     public void deleteCharacterByID(@PathVariable String id) {
-        repo.deleteById(id);
+        service.deleteCharacterByID(id);
     }
 }
