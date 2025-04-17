@@ -1,10 +1,12 @@
 package com.example.spring_data.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import com.example.spring_data.repository.CharacterRepo;
+import com.example.spring_data.dto.CharacterDTO;
 import com.example.spring_data.model.Character;
 
 
@@ -24,12 +26,15 @@ public class CharacterService {
         return repo.findById(id).orElseThrow(null);
     }
 
-    // public Character getCharacterByName(@RequestParam String name) {
-    //     return repo.findBy(x -> x.characters.stream().filter(character -> character.name.equals(name)).getFirst());
-    // }
-
-    public Character addCharacter(Character character) {
-        return repo.save(character);
+    public Character addCharacter(CharacterDTO character) {
+        Character newCharacter = new Character(
+            UUID.randomUUID().toString(), 
+            character.name(),
+            character.age(),
+            character.profession()
+        );
+        
+        return repo.save(newCharacter);
     }
 
     public void deleteCharacterByID(String id) {

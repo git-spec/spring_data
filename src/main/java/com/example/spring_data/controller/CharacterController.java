@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.spring_data.dto.CharacterDTO;
 import com.example.spring_data.model.Character;
 import com.example.spring_data.service.CharacterService;
 
@@ -45,7 +46,7 @@ public class CharacterController {
     }
 
     @PostMapping
-    public Character addCharacter(@RequestBody Character character) {
+    public Character addCharacter(@RequestBody CharacterDTO character) {
         return service.addCharacter(character);
     }
 
