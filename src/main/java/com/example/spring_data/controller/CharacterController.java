@@ -41,6 +41,11 @@ public class CharacterController {
         return service.getAllCharacters();
     }
 
+    @GetMapping("/characters/age/average")
+    public int getAverageAgeOfCharacters() {
+        return service.getAverageAgeOfCharacters();
+    }
+
     @GetMapping("/character/{id}")
     public Character getCharacterByID(@PathVariable String id) {
         return service.getCharacterByID(id);

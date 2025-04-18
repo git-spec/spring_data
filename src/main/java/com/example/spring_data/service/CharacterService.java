@@ -23,12 +23,21 @@ public class CharacterService {
             .toList();
     }
 
+    private int getAverage(List<Integer> list) {
+        return list.stream().reduce(0, (age_1, age_2) -> age_1 + age_2) / list.size();
+    }
+
     public CharacterService(CharacterRepo repo) {
         this.repo = repo;
     }
 
     public List<Character> getAllCharacters() {
         return repo.findAll();
+    }
+
+    public int getAverageAgeOfCharacters() {
+        List<Integer> ages = getAllCharacters().stream().map(c -> c.age()).collect(Collectors.toList());
+        return getAverage(ages);
     }
 
     public Character getCharacterByID(String id) {
@@ -50,7 +59,7 @@ public class CharacterService {
 
     public int getAverageAgeOfCharactersByRole(String role) {
         List<Integer> ages = findCharactersByRole(role).stream().map(c -> c.age()).collect(Collectors.toList());
-        return ages.stream().reduce(0, (age_1, age_2) -> age_1 + age_2) / ages.size();
+        return getAverage(ages);
     }
 
     public Character addCharacter(CharacterDTO character) {
