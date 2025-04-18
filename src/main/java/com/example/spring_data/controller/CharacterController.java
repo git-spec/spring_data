@@ -46,9 +46,14 @@ public class CharacterController {
         return service.getCharacterByID(id);
     }
 
-    @GetMapping("/character")
+    @GetMapping(value = "/character", params = "name")
     public Character getCharacterByName(@RequestParam("name") String name) {
         return service.getCharacterByName(name);
+    }
+
+    @GetMapping(value = "/character", params = "role")
+    public Character getCharacterByRole(@RequestParam("role") String role) {
+        return service.getCharacterByRole(role);
     }
 
     @PostMapping("/character")

@@ -27,7 +27,21 @@ public class CharacterService {
     }
 
     public Character getCharacterByName(String name) {
-        return repo.findAll().stream().filter(c -> c.name().equals(name)).findFirst().get();
+        return repo
+            .findAll()
+            .stream()
+            .filter(c -> c.name().equals(name))
+            .findFirst()
+            .get();
+    }
+
+    public Character getCharacterByRole(String role) {
+        return repo
+            .findAll()
+            .stream()
+            .filter(c -> c.role().toLowerCase().equals(role.toLowerCase()))
+            .findFirst()
+            .get();
     }
 
     public Character addCharacter(CharacterDTO character) {
@@ -35,7 +49,7 @@ public class CharacterService {
             UUID.randomUUID().toString(), 
             character.name(),
             character.age(),
-            character.profession()
+            character.role()
         );
         
         repo.save(newCharacter);
