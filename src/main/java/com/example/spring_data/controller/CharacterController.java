@@ -56,6 +56,11 @@ public class CharacterController {
         return service.getCharactersByRole(role);
     }
 
+    @GetMapping(value = "/characters/age/average", params = "role")
+    public int getAverageAgeOfCharactersByRole(@RequestParam("role") String role) {
+        return service.getAverageAgeOfCharactersByRole(role);
+    }
+
     @PostMapping("/character")
     public Character addCharacter(@RequestBody CharacterDTO character) {
         return service.addCharacter(character);

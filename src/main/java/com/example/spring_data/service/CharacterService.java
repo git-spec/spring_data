@@ -2,6 +2,7 @@ package com.example.spring_data.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,11 @@ public class CharacterService {
 
     public List<Character> getCharactersByRole(String role) {
         return findCharactersByRole(role);
+    }
+
+    public int getAverageAgeOfCharactersByRole(String role) {
+        List<Integer> ages = findCharactersByRole(role).stream().map(c -> c.age()).collect(Collectors.toList());
+        return ages.stream().reduce(0, (age_1, age_2) -> age_1 + age_2) / ages.size();
     }
 
     public Character addCharacter(CharacterDTO character) {
