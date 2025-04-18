@@ -14,6 +14,14 @@ import com.example.spring_data.model.Character;
 public class CharacterService {
     private final CharacterRepo repo;
 
+    private List<Character> findCharactersByRole(String role) {
+        return repo
+            .findAll()
+            .stream()
+            .filter(c -> c.role().toLowerCase().equals(role.toLowerCase()))
+            .toList();
+    }
+
     public CharacterService(CharacterRepo repo) {
         this.repo = repo;
     }
@@ -35,13 +43,8 @@ public class CharacterService {
             .get();
     }
 
-    public Character getCharacterByRole(String role) {
-        return repo
-            .findAll()
-            .stream()
-            .filter(c -> c.role().toLowerCase().equals(role.toLowerCase()))
-            .findFirst()
-            .get();
+    public List<Character> getCharactersByRole(String role) {
+        return findCharactersByRole(role);
     }
 
     public Character addCharacter(CharacterDTO character) {

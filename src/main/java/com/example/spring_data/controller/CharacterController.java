@@ -51,9 +51,9 @@ public class CharacterController {
         return service.getCharacterByName(name);
     }
 
-    @GetMapping(value = "/character", params = "role")
-    public Character getCharacterByRole(@RequestParam("role") String role) {
-        return service.getCharacterByRole(role);
+    @GetMapping(value = "/characters", params = "role")
+    public List<Character> getCharactersByRole(@RequestParam("role") String role) {
+        return service.getCharactersByRole(role);
     }
 
     @PostMapping("/character")
