@@ -1,19 +1,24 @@
 package com.example.spring_data.service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.example.spring_data.repository.CharacterRepo;
 import com.example.spring_data.dto.CharacterDTO;
 import com.example.spring_data.model.Character;
+import com.example.spring_data.repository.CharacterRepo;
 
 
 @Service
 public class CharacterService {
     private final CharacterRepo repo;
+    private final IDService idService;
+
+    public CharacterService(CharacterRepo repo, IDService idService) {
+        this.repo = repo;
+        this.idService = idService;
+    }
 
     private List<Character> findCharactersByRole(String role) {
         return repo
@@ -27,21 +32,20 @@ public class CharacterService {
         return list.stream().reduce(0, (age_1, age_2) -> age_1 + age_2) / list.size();
     }
 
-    public CharacterService(CharacterRepo repo) {
-        this.repo = repo;
-    }
-
     public List<Character> getAllCharacters() {
         return repo.findAll();
     }
 
     public int getAverageAgeOfCharacters() {
-        List<Integer> ages = getAllCharacters().stream().map(c -> c.age()).collect(Collectors.toList());
+        List<Integer> ages = getAllCharacters()
+            .stream()
+            .map(c -> c.age())
+            .collect(Collectors.toList());
         return getAverage(ages);
     }
 
     public Character getCharacterByID(String id) {
-        return repo.findById(id).orElseThrow(null);
+        return repo.findById(id).orElse(null);
     }
 
     public Character getCharacterByName(String name) {
@@ -58,13 +62,16 @@ public class CharacterService {
     }
 
     public int getAverageAgeOfCharactersByRole(String role) {
-        List<Integer> ages = findCharactersByRole(role).stream().map(c -> c.age()).collect(Collectors.toList());
+        List<Integer> ages = findCharactersByRole(role)
+            .stream()
+            .map(c -> c.age())
+            .collect(Collectors.toList());
         return getAverage(ages);
     }
 
     public Character addCharacter(CharacterDTO character) {
         Character newCharacter = new Character(
-            UUID.randomUUID().toString(), 
+            idService.createID(), 
             character.name(),
             character.age(),
             character.role()
